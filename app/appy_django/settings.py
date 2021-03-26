@@ -21,12 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
-DOMAIN = os.environ.get("PAGE_HOST", "localhost:1337")
+DEBUG = False
+DOMAIN = os.environ.get("PAGE_HOST", "localhost:80")
 
-# 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
-# For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
-ALLOWED_HOSTS = [".bemojioji.com", ".amazonaws.com", "localhost", "127.0.0.1", "." + os.environ.get("PAGE_HOST", "")]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -37,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "upload",
 ]
 

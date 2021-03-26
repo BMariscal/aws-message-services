@@ -1,9 +1,10 @@
 import logging
-from django.db.utils import IntegrityError
-from django.db import transaction
 
-from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
+from django.db import transaction
+from django.db.utils import IntegrityError
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from upload.models import Emojis, EmojiTag, Tags
 
 logging.basicConfig(level=logging.WARN)
@@ -25,7 +26,7 @@ def valid_input(request) -> bool:
     return True
 
 
-@transaction.atomic
+@csrf_exempt
 def image_upload(request):
     if request.method == "POST" and "image_file" in request.FILES:
         if not valid_input(request):
@@ -43,15 +44,17 @@ def image_upload(request):
         emoji.save()
         if tag:
             try:
-                with transaction.atomic():
-                    tag = Tags(tag=tag)
-                    tag.save()
+                tag_exists = Tags.objects.filter(tag=tag).exists()
+                if not tag_exists:
+                    with transaction.atomic():
+                        tag = Tags(tag=tag)
+                        tag.save()
             except IntegrityError as e:
                 logger.warning("Error", e)
                 emoji_tag = EmojiTag(emoji=emoji, tag=tag)
                 emoji_tag.save()
-
         return render(request, "upload.html", {
-            "image_url": image_url
+            "image_url": name
         })
+
     return render(request, "upload.html")
