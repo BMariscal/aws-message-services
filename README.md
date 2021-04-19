@@ -3,6 +3,6 @@
 AWS EventBridge vs Amazon MQ vs SQS/SNS
 
 
-- Django, Postgres, Ngnix
+- Django, Postgres, Ngnix, S3
 
 

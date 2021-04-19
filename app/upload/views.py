@@ -6,6 +6,7 @@ from django.db.utils import IntegrityError
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from upload.models import Emojis, EmojiTag, Tags
+from upload.helpers.upload_image import upload_emoji_image
 
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
@@ -37,8 +38,9 @@ def image_upload(request):
         name = request.POST.get("name")
 
         fs = FileSystemStorage()
-        filename = fs.save(image_file.name, image_file)  # TODO: s3 this bitch
+        filename = fs.save(image_file.name, image_file)
         image_url = fs.url(filename)
+        s3_link = upload_emoji_image(image_file, image_file.name)
 
         emoji = Emojis(image_url=image_url, name=name)
         emoji.save()
@@ -54,7 +56,7 @@ def image_upload(request):
                 emoji_tag = EmojiTag(emoji=emoji, tag=tag)
                 emoji_tag.save()
         return render(request, "upload.html", {
-            "image_url": name
+            "image_url": s3_link
         })
 
     return render(request, "upload.html")
