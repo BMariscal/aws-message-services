@@ -1,24 +1,47 @@
 {% block content %}
 <head>
-  <title>Upload Emoji</title>
-</head>
+    <title>Upload Emoji</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
 
-  <form action="{% url "upload" %}" method="post" enctype="multipart/form-data">
+      .button2 {
+      background-color: white;
+      color: black;
+      border: 2px solid #black;
+      text-decoration: none;
+    }
+    .button2:hover {
+        background-color: lightgrey;
+    }
+    </style>
+</head>
+<div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12">
+    <div style="text-align:center;color:#1E90FF">
+        <h2>Upload Emoji</h2>
+        <br><br>
+    <button class="button2"><a href="images/">All Emojis</a></button>
+    <br><br>
+    </div>
+        <br><br>
+        <br><br>
+    <form action="{% url "upload" %}" method="post" enctype="multipart/form-data" style="text-align:center">
     {% csrf_token %}
     <label for="name">Emoji Name</label><br>
 
-    <input type="text" id="name" name="name" value="name-emoji"><br>
+    <input type="text" id="name" name="name" value="name-emoji" style="text-align:center;background-color:#edf6ff"><br>
 
     <label for="name">Tag</label><br>
 
-    <input type="text" id="tag" name="tag" value="tag"><br>
+    <input type="text" id="tag" name="tag" value="tag" style="text-align:center;background-color:#edf6ff"><br>
     <br><br>
     <input type="file" name="image_file">
-    <input type="submit" value="submit emoji" />
-  </form>
-  {% if image_url %}
+    <input type="submit" value="submit emoji"/>
+    </form>
+    <div  style="text-align:center">
+    {% if image_url %}
     <p>File uploaded: <a href="{{ image_url }}" target="_blank">{{ image_url }}</a></p>
     <img src="{{ image_url }}" alt="emoji">
-  {% endif %}
-
+    {% endif %}
+    </div>
+</div>
 {% endblock %}

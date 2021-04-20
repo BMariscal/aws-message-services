@@ -1,0 +1,30 @@
+{% block content %}
+<head>
+    <title>Emojis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      .item {
+      background-color: white;
+      border-style: solid;
+      border-width: thin;
+      width:50%;
+      padding: 10px;
+      margin: auto;
+    }
+    .item:hover {
+        background-color: lightgrey;
+    }
+    </style>
+</head>
+<div>
+    <div  style="text-align:center">
+        {% for name, image_url in emojis %}
+            <div class="item">
+            <img src="{{ image_url }}" alt="emoji">
+            <ul class="collection-item"><a href="{{ image_url }}" target="_blank">{{ name }}</a></ul>
+                <br>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

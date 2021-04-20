@@ -33,7 +33,3 @@ def upload_emoji_image(image, image_name):
         return False
 
     return URL + file_name
-
-
-def retrieve_emoji_images():
-    pass
