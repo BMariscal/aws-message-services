@@ -18,11 +18,16 @@
 </head>
 <div>
     <div  style="text-align:center">
-        {% for name, image_url in emojis %}
+        {% for name, image_url, uploaded_by, tags in emojis %}
             <div class="item">
-            <img src="{{ image_url }}" alt="emoji">
-            <ul class="collection-item"><a href="{{ image_url }}" target="_blank">{{ name }}</a></ul>
+                <ul style="list-style-type:none;">
+            <li><img src="{{ image_url}}" alt="emoji"></li>
                 <br>
+                <li> <h3> name: <a href="{{ image_url}}" target="_blank"> {{ name }}</a></h3></li>
+                <li><h3>uploaded by: {{ uploaded_by }}</h3></li>
+                    <li><h3> tags: {{ tags }} </h3></li>
+                <br>
+                    </ul>
             </div>
         {% endfor %}
     </div>

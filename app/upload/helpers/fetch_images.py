@@ -1,7 +1,6 @@
-from upload.models import Emojis, EmojiTag, Tags
-
+from upload.models import Emoji
 
 
 def retrieve_emoji_images():
-    emojis = Emojis.objects.values_list("name", "image_url")
-    return emojis
+    emojis_with_tags = Emoji.objects.values_list("name", "image_url", "uploaded_by", "tags")
+    return emojis_with_tags
