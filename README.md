@@ -20,8 +20,20 @@ Tools:
 
 - Django, Pillow, Gunicorn
 - Postgres 
-- Ngnix, Docker
+- Ngnix
+- Docker
 - Boto3: S3, SQS, EventBridge
+
+
+----
+![infrastructure](https://user-images.githubusercontent.com/13512876/117584078-916cc980-b0bf-11eb-9305-859ee9b7eb26.png)
+
+
+
+
+TODO: 
+- move db (currently a db container) to RDS
+- Setup SNS + Lambda function to notify slack
 
 
 ----
