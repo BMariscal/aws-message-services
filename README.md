@@ -1,5 +1,5 @@
 # aws-message-services (also emojis app)
-  - simple app with bloated infrastructure for funsies
+ Simple app with bloated infrastructure for funsies.
   
 https://lumigo.io/blog/choosing-the-right-event-routing-on-aws-eventbridge-sns-or-sqs/
 
