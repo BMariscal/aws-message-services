@@ -1,12 +1,12 @@
 """
 Event Bridge:
 1. publish_message_to_event_bridge
-2. AWS EventBridge publishes message to second queue
-3. read_from_sqs_queue reads EventBridge events from second queue
+2. AWS EventBridge publishes message to SUB queue
+3. read_from_sqs_queue reads EventBridge events from SUB queue
 
 SQS:
-1. publish_message_to_queue enqueues event to first queue
-2. Lambda function polls from first queue, does something to data, sends it to second queue
+1. publish_message_to_queue enqueues event to PUB queue
+2. Lambda function polls from PUB queue, does something to data, sends it to SUB queue
 
 """
 import json
@@ -16,8 +16,8 @@ import os
 import boto3
 
 REGION_NAME = os.environ.get("REGION_NAME")
-FIRST_QUEUE_URL = os.environ.get("FIRST_SQS_QUEUE_URL")
-SECOND_QUEUE_URL = os.environ.get("SECOND_QUEUE_URL")
+PUB_QUEUE_URL = os.environ.get("PUB_QUEUE_URL")
+SUB_QUEUE_URL = os.environ.get("SUB_QUEUE_URL")
 RESOURCE_ARN = os.environ.get("RESOURCE_ARN")
 SOURCE = os.environ.get("SOURCE")
 
@@ -32,12 +32,12 @@ event_bridge_client = boto3.client('events', **kwargs)
 logger = logging.getLogger(__name__)
 
 def publish_message_to_queue(payload: dict):
-    kwargs["endpoint_url"] = FIRST_QUEUE_URL
+    kwargs["endpoint_url"] = PUB_QUEUE_URL
     sqs_client = boto3.client("sqs", **kwargs)
     try:
-        logger.info(f"Sending immediate event to {FIRST_QUEUE_URL}")
+        logger.info(f"Sending immediate event to {PUB_QUEUE_URL}")
         sqs_client.send_message(
-            QueueUrl=FIRST_QUEUE_URL,
+            QueueUrl=PUB_QUEUE_URL,
             MessageBody=json.dumps(payload)
         )
     except Exception as e:
@@ -68,7 +68,7 @@ def publish_message_to_event_bridge(payload: dict):
     read_from_sqs_queue()
 
 def read_from_sqs_queue():
-    kwargs["endpoint_url"] = SECOND_QUEUE_URL
+    kwargs["endpoint_url"] = SUB_QUEUE_URL
     sqs_client = boto3.client("sqs", **kwargs)
     queue_url = os.environ.get("SECOND_QUEUE_URL")
 
