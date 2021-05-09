@@ -12,8 +12,9 @@ client = boto3.client(
 )
 
 MAX_SIZE = (128, 128)
-BUCKET = "bemojioji"
-URL = f"https://{BUCKET}.s3.us-east-2.amazonaws.com/"
+BUCKET = os.environ.get("S3_BUCKET")
+REGION_NAME = os.environ.get("REGION_NAME")
+URL = f"https://{BUCKET}.s3.{REGION_NAME}.amazonaws.com/"
 
 
 def upload_emoji_image(image, image_name):
